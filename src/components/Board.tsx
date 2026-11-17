@@ -7,6 +7,8 @@ interface Props {
   marks: number[];
   selected: number | null;
   conflicts: Set<number>;
+  /** 사진에서 읽기가 불확실했던 칸 */
+  flagged?: Set<number>;
   hint: Hint | null;
   hintLevel: number;
   onSelect: (i: number) => void;
@@ -14,7 +16,7 @@ interface Props {
 
 const DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export function Board({ values, given, marks, selected, conflicts, hint, hintLevel, onSelect }: Props) {
+export function Board({ values, given, marks, selected, conflicts, flagged, hint, hintLevel, onSelect }: Props) {
   const sel = selected ?? -1;
   const selDigit = sel >= 0 ? values[sel] : 0;
   const focus = new Set(hint && hintLevel >= 1 ? hint.focus : []);
@@ -33,6 +35,7 @@ export function Board({ values, given, marks, selected, conflicts, hint, hintLev
         else if (isPeer) cls.push('peer');
         if (v && v === selDigit && i !== sel) cls.push('same');
         if (conflicts.has(i)) cls.push('conflict');
+        if (flagged?.has(i)) cls.push('flagged');
         if (focus.has(i)) cls.push('focus');
         if (keys.has(i)) cls.push('key');
         if (showFix && hint.place?.cell === i) cls.push('place');

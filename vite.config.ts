@@ -10,6 +10,20 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg'],
+      workbox: {
+        // 사진 입력의 글자 인식 엔진·데이터는 처음 쓸 때 내려받고, 이후에는 오프라인에서도 쓰도록 저장한다
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/(cdn\.jsdelivr\.net|tessdata\.projectnaptha\.com)\//,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'ocr-assets',
+              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
+      },
       manifest: {
         name: '스도쿠 도우미',
         short_name: '스도쿠 도우미',

@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { Board } from './components/Board';
 import { HintPanel } from './components/HintPanel';
+import { PhotoImport } from './components/PhotoImport';
+import type { ReadResult } from './photo/recognize';
 import { PEERS, bit, computeCandidates, conflictCells, parsePuzzle } from './sudoku/board';
 import { applyHint, findHint, type Hint } from './sudoku/hints';
 import { solve } from './sudoku/solver';
@@ -194,6 +196,9 @@ export default function App() {
   const [state, dispatch] = useReducer(reducer, undefined, loadState);
   const [importOpen, setImportOpen] = useState(false);
   const [importText, setImportText] = useState('');
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [recognized, setRecognized] = useState<ReadResult | null>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
   const { game, selected, mode, hint, hintLevel, message } = state;
 
   useEffect(() => {
@@ -210,6 +215,28 @@ export default function App() {
     for (const v of game.values) if (v) c[v]++;
     return c;
   }, [game.values]);
+  /** 사진에서 읽은 뒤 아직 손대지 않은 불확실한 칸 */
+  const flagged = useMemo(
+    () =>
+      new Set(
+        game.phase === 'setup' && recognized ? recognized.uncertain.filter((i) => game.values[i] === recognized.values[i]) : [],
+      ),
+    [game.phase, game.values, recognized],
+  );
+
+  const onPhotoRead = (result: ReadResult) => {
+    setPhotoFile(null);
+    setRecognized(result);
+    dispatch({ type: 'load', values: result.values });
+    const n = result.values.filter(Boolean).length;
+    const u = result.uncertain.length;
+    dispatch({
+      type: 'message',
+      tone: 'info',
+      text: `숫자 ${n}개를 읽었어요.${u ? ` 주황색 칸 ${u}개는 확실하지 않아요.` : ''} 사진과 비교해 틀린 칸을 고친 뒤 풀기 시작을 누르세요.`,
+    });
+  };
+
   const solved =
     game.phase === 'solve' && game.values.every((v) => v) && conflicts.size === 0 && (!game.solution || game.values.every((v, i) => v === game.solution![i]));
 
@@ -217,6 +244,7 @@ export default function App() {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
       if (t.tagName === 'TEXTAREA' || t.tagName === 'INPUT') return;
+      if (document.querySelector('.photo-sheet')) return;
       const m = /^(?:Digit|Numpad)([1-9])$/.exec(e.code);
       if (m && !e.ctrlKey && !e.metaKey && !e.altKey) {
         dispatch({ type: 'input', digit: Number(m[1]), asMark: e.shiftKey ? true : undefined });
@@ -297,6 +325,7 @@ export default function App() {
         marks={isSetup ? zeros() : game.marks}
         selected={selected}
         conflicts={conflicts}
+        flagged={flagged}
         hint={hint}
         hintLevel={hintLevel}
         onSelect={(cell) => dispatch({ type: 'select', cell })}
@@ -345,8 +374,8 @@ export default function App() {
             <button type="button" onClick={() => setImportOpen((o) => !o)}>
               텍스트로 입력
             </button>
-            <button type="button" disabled>
-              사진으로 입력 (준비 중)
+            <button type="button" onClick={() => fileInput.current?.click()}>
+              사진으로 입력
             </button>
             <button type="button" onClick={() => dispatch({ type: 'new' })} disabled={!game.values.some(Boolean)}>
               모두 지우기
@@ -400,6 +429,21 @@ export default function App() {
             </button>
           </div>
         </div>
+      )}
+
+      <input
+        ref={fileInput}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) setPhotoFile(f);
+          e.target.value = '';
+        }}
+      />
+      {photoFile && (
+        <PhotoImport file={photoFile} onDone={onPhotoRead} onCancel={() => setPhotoFile(null)} onPickAgain={() => fileInput.current?.click()} />
       )}
 
       <p className="keys">키보드: 1~9 입력 · Shift+숫자 후보 · Space 숫자/후보 전환 · 방향키 이동 · Tab 다음 칸 · Shift+Tab 이전 칸 · Backspace 지우기 · H 힌트 · Ctrl+Z 되돌리기</p>
