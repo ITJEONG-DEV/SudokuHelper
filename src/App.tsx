@@ -28,7 +28,8 @@ interface State {
 
 type Action =
   | { type: 'select'; cell: number }
-  | { type: 'move'; dr: number; dc: number }  | { type: 'input'; digit: number; asMark?: boolean }
+  | { type: 'move'; dr: number; dc: number }
+  | { type: 'step'; delta: number }  | { type: 'input'; digit: number; asMark?: boolean }
   | { type: 'erase' }
   | { type: 'undo' }
   | { type: 'toggleMode' }
@@ -86,6 +87,8 @@ function reducer(state: State, action: Action): State {
       const c = ((cur % 9) + action.dc + 9) % 9;
       return { ...state, selected: r * 9 + c };
     }
+    case 'step':
+      return { ...state, selected: ((selected ?? -action.delta) + action.delta + 81) % 81 };
     case 'input': {
       if (selected === null) return state;
       const d = action.digit;
@@ -222,6 +225,11 @@ export default function App() {
       }
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
         dispatch({ type: 'undo' });
+        e.preventDefault();
+        return;
+      }
+      if (e.key === 'Tab' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        dispatch({ type: 'step', delta: e.shiftKey ? -1 : 1 });
         e.preventDefault();
         return;
       }
@@ -392,7 +400,7 @@ export default function App() {
         </div>
       )}
 
-      <p className="keys">키보드: 1~9 입력 · Shift+숫자 후보 · Space 숫자/후보 전환 · 방향키 이동 · Backspace 지우기 · H 힌트 · Ctrl+Z 되돌리기</p>
+      <p className="keys">키보드: 1~9 입력 · Shift+숫자 후보 · Space 숫자/후보 전환 · 방향키 이동 · Tab 다음 칸 · Shift+Tab 이전 칸 · Backspace 지우기 · H 힌트 · Ctrl+Z 되돌리기</p>
     </div>
   );
 }
