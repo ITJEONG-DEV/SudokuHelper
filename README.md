@@ -16,6 +16,7 @@
   3. 칸과 이유. `판에 적용`으로 반영한다.
 - **오류 점검**: 힌트는 먼저 중복 숫자, 정답과 다른 숫자, 잘못 지운 후보, 이미 쓰인 숫자가 남은 후보를 알려준다.
 - 진행 상태는 브라우저에 자동 저장된다.
+- 새 버전이 배포되면 화면 아래에 새로고침 안내가 뜬다. `새로고침`을 누르면 진행 상태를 유지한 채 새 버전으로 바뀐다.
 
 ### 힌트 기법 (쉬운 순)
 
@@ -56,4 +57,5 @@ main에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 테스트·
 - `src/photo/image.ts`: 판 모서리 찾기, 투영 변환으로 펼치기, 칸별 숫자 모양 자르기
 - `src/photo/recognize.ts`: Tesseract.js로 숫자 읽기
 - `src/components/AppNav.tsx`: 스도쿠·노노그램 도우미 이동 메뉴 (NonogramHelper에도 같은 파일)
+- `src/components/UpdateBanner.tsx`: 새 버전 새로고침 안내 (두 앱에 같은 파일)
 - `src/App.tsx`, `src/components/`: 화면
