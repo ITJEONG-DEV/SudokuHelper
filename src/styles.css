@@ -127,7 +127,8 @@ button {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-rows: repeat(9, minmax(0, 1fr));
   width: 100%;
   aspect-ratio: 1;
   border: 2px solid var(--line-strong);
@@ -150,6 +151,7 @@ button {
   cursor: pointer;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
 }
 
 .cell:nth-child(9n) {
@@ -203,6 +205,7 @@ button {
 
 .value {
   font-size: clamp(1.1rem, 6vw, 1.7rem);
+  line-height: 1;
   font-weight: 500;
   color: var(--entered);
 }
