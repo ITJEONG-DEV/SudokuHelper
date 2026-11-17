@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { AppNav } from './components/AppNav';
 import { Board } from './components/Board';
 import { HintPanel } from './components/HintPanel';
 import { PhotoImport } from './components/PhotoImport';
@@ -297,6 +298,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <AppNav current="sudoku" />
       <header className="app-header">
         <h1>스도쿠 도우미</h1>
         <span className={`phase-badge ${game.phase}`}>{isSetup ? '문제 입력' : '푸는 중'}</span>

@@ -2,7 +2,7 @@
 
 스도쿠 문제를 입력하면 다음 한 단계를 힌트로 알려주는 PWA. 브라우저에서 쓰거나 휴대폰 홈 화면에 앱으로 설치할 수 있고, 설치 후에는 오프라인에서도 동작한다.
 
-**사용하기**: https://itjeong-dev.github.io/SudokuHelper/
+**사용하기**: https://itjeong-dev.github.io/SudokuHelper/ · 함께 쓰는 앱: [노노그램 도우미](https://itjeong-dev.github.io/NonogramHelper/)
 
 ## 기능
 
@@ -55,4 +55,5 @@ main에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 테스트·
 - `src/sudoku/hints.ts`: 힌트 엔진 (`findHint`, `applyHint`)
 - `src/photo/image.ts`: 판 모서리 찾기, 투영 변환으로 펼치기, 칸별 숫자 모양 자르기
 - `src/photo/recognize.ts`: Tesseract.js로 숫자 읽기
+- `src/components/AppNav.tsx`: 스도쿠·노노그램 도우미 이동 메뉴 (NonogramHelper에도 같은 파일)
 - `src/App.tsx`, `src/components/`: 화면
