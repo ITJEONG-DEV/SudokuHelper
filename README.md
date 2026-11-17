@@ -2,6 +2,8 @@
 
 스도쿠 문제를 입력하면 다음 한 단계를 힌트로 알려주는 PWA. 브라우저에서 쓰거나 휴대폰 홈 화면에 앱으로 설치할 수 있고, 설치 후에는 오프라인에서도 동작한다.
 
+**사용하기**: https://itjeong-dev.github.io/SudokuHelper/
+
 ## 기능
 
 - **문제 입력**: 칸을 골라 숫자판·키보드로 입력하거나, 81자(또는 9줄) 텍스트를 붙여넣는다. 빈칸은 `0`이나 `.`으로 쓴다.
@@ -43,7 +45,7 @@ npm run preview   # 빌드 결과 확인
 npm run icons     # public/icon-192.png, icon-512.png 다시 만들기
 ```
 
-빌드 결과는 상대 경로(`base: './'`)라 GitHub Pages 같은 하위 경로에도 그대로 올릴 수 있다.
+main에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 테스트·빌드 후 GitHub Pages에 배포한다. 빌드 결과는 상대 경로(`base: './'`)라 하위 경로에서도 동작한다.
 
 ## 구조
 
