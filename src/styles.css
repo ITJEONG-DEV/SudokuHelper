@@ -488,7 +488,7 @@ button.link {
 .photo-sheet {
   position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: 1000;
   background: var(--bg);
   overflow-y: auto;
 }
@@ -557,6 +557,9 @@ button.link {
 /* ---------- 앱 이동 메뉴 ---------- */
 
 .app-nav {
+  /* 페이지 밖 스타일(확장 프로그램 등)이 nav에 z-index를 줘도 사진 시트를 덮지 않게 고정 */
+  position: relative;
+  z-index: 0;
   display: flex;
   gap: 4px;
   background: var(--peer);
