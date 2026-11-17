@@ -223,7 +223,7 @@ export default function App() {
         e.preventDefault();
         return;
       }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+      if ((e.ctrlKey || e.metaKey) && e.code === 'KeyZ') {
         dispatch({ type: 'undo' });
         e.preventDefault();
         return;
@@ -241,10 +241,11 @@ export default function App() {
       } else if (e.key === 'Backspace' || e.key === 'Delete' || e.code === 'Digit0' || e.code === 'Numpad0') {
         dispatch({ type: 'erase' });
         e.preventDefault();
-      } else if (e.key === ' ' || e.key.toLowerCase() === 'n') {
+      } else if (e.code === 'Space' || e.code === 'KeyN') {
+        // 한글 입력 상태에서는 e.key가 'ㅜ'·'Process'가 되므로 물리 키(e.code)로 본다
         dispatch({ type: 'toggleMode' });
         e.preventDefault();
-      } else if (e.key.toLowerCase() === 'h' && game.phase === 'solve') {
+      } else if (e.code === 'KeyH' && game.phase === 'solve') {
         dispatch({ type: 'hint' });
       }
     };
@@ -319,6 +320,7 @@ export default function App() {
           <button type="button" role="radio" aria-checked={mode === 'mark'} className={mode === 'mark' ? 'on' : ''} onClick={() => mode !== 'mark' && dispatch({ type: 'toggleMode' })}>
             후보수
           </button>
+          <span className="mode-key">Space 또는 N으로 전환</span>
         </div>
       )}
 

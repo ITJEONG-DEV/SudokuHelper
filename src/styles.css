@@ -326,6 +326,20 @@ button {
   color: var(--muted);
 }
 
+.mode-key {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding-top: 4px;
+}
+
+@media (hover: none) {
+  .mode-key {
+    display: none;
+  }
+}
+
 .mode-switch button.on {
   background: var(--surface);
   color: var(--accent);
