@@ -40,7 +40,7 @@
 | 방향키 | 칸 이동 |
 | Tab / Shift+Tab | 다음 칸 / 이전 칸 (줄 끝에서 다음 줄로) || Backspace, Delete, 0 | 지우기 |
 | H | 힌트 |
-| Ctrl+Z | 되돌리기 |
+| Ctrl+Z | 실행 취소 |
 
 ## 개발
 

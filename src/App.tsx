@@ -425,7 +425,7 @@ export default function App() {
 
       <div className="toolbar">
         <button type="button" onClick={() => dispatch({ type: 'undo' })} disabled={!state.history.length}>
-          되돌리기
+          실행 취소
         </button>
         {isSetup ? (
           <>
@@ -509,7 +509,7 @@ export default function App() {
         <PhotoImport file={photoFile} onDone={onPhotoRead} onCancel={() => setPhotoFile(null)} onPickAgain={() => fileInput.current?.click()} />
       )}
 
-      <p className="keys">키보드: 1~9 입력 · Shift+숫자 후보 · Space 숫자/후보 전환 · 방향키 이동 · Tab 다음 칸 · Shift+Tab 이전 칸 · Backspace 지우기 · H 힌트 · Ctrl+Z 되돌리기</p>
+      <p className="keys">키보드: 1~9 입력 · Shift+숫자 후보 · Space 숫자/후보 전환 · 방향키 이동 · Tab 다음 칸 · Shift+Tab 이전 칸 · Backspace 지우기 · H 힌트 · Ctrl+Z 실행 취소</p>
     </div>
   );
 }
