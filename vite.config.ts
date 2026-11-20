@@ -9,6 +9,8 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
+      // 퍼즐 도우미로 옮겨 옛 서비스 워커는 스스로 해제한다(설치한 앱도 다음에 열 때 새 주소로 넘어감)
+      selfDestroying: true,
       includeAssets: ['icon.svg'],
       workbox: {
         // 사진 입력의 글자 인식 엔진·데이터는 처음 쓸 때 내려받고, 이후에는 오프라인에서도 쓰도록 저장한다

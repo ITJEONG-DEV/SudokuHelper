@@ -1,5 +1,7 @@
 # 스도쿠 도우미
 
+> **스도쿠 도우미는 [퍼즐 도우미](https://itjeong-dev.github.io/PuzzleHelper/)로 합쳐졌다.** 이 저장소는 더 고치지 않고, 옛 주소로 들어오면 새 주소의 스도쿠 화면(`#/sudoku`)으로 넘어간다. 코드는 [PuzzleHelper](https://github.com/ITJEONG-DEV/PuzzleHelper) 저장소의 `src/games/sudoku/`에 있다.
+
 스도쿠 문제를 입력하면 다음 한 단계를 힌트로 알려주는 PWA. 브라우저에서 쓰거나 휴대폰 홈 화면에 앱으로 설치할 수 있고, 설치 후에는 오프라인에서도 동작한다.
 
 **사용하기**: https://itjeong-dev.github.io/SudokuHelper/ · 함께 쓰는 앱: [노노그램 도우미](https://itjeong-dev.github.io/NonogramHelper/) · [가쿠로 도우미](https://itjeong-dev.github.io/KakuroHelper/) · [지뢰찾기 도우미](https://itjeong-dev.github.io/MinesweeperHelper/)
