@@ -827,3 +827,13 @@ a.app-tile:focus-visible {
   color: var(--danger);
   border-color: var(--danger);
 }
+
+/* 새 버전 안내 버튼: 손가락으로 누르기 쉬운 크기 */
+.update-banner button {
+  min-height: 40px;
+  touch-action: manipulation;
+}
+
+.update-banner button:disabled {
+  opacity: 0.6;
+}
