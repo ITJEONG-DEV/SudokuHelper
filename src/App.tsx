@@ -485,11 +485,11 @@ export default function App() {
               문제 고치기
             </button>
             <button type="button" className="link" onClick={() => dispatch({ type: 'new' })}>
-              새 문제
+              새 게임
             </button>
             {game.level && (
               <button type="button" className="link" onClick={() => startRandom(game.level!)} disabled={generating !== null}>
-                {generating ? '만드는 중…' : `같은 난이도(${levelLabel(game.level)}) 한 문제 더`}
+                {generating ? '만드는 중…' : '같은 조건으로 다시'}
               </button>
             )}
           </div>
