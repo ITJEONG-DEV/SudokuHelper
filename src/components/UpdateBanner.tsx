@@ -5,7 +5,7 @@ const CHECK_INTERVAL = 60 * 60 * 1000;
 
 /**
  * 새 버전이 받아지면 새로고침 안내를 띄운다.
- * NonogramHelper에도 같은 파일이 있다.
+ * 퍼즐 도우미 네 앱에 같은 파일이 있다.
  */
 export function UpdateBanner() {
   const {

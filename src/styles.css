@@ -821,3 +821,9 @@ a.app-tile:focus-visible {
   margin-top: -4px;
 }
 
+
+.solved-toast.error {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: var(--danger);
+}

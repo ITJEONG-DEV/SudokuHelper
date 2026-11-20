@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 
 /**
  * 퍼즐 도우미 앱 모음. 제목 줄의 버튼을 누르면 아래에서 앱 목록이 올라온다.
- * SudokuHelper·NonogramHelper·KakuroHelper에 같은 파일을 둔다.
+ * SudokuHelper·NonogramHelper·KakuroHelper·MinesweeperHelper에 같은 파일을 둔다.
  */
 const APPS = [
   { id: 'sudoku', label: '스도쿠', href: 'https://itjeong-dev.github.io/SudokuHelper/' },
   { id: 'nonogram', label: '노노그램', href: 'https://itjeong-dev.github.io/NonogramHelper/' },
   { id: 'kakuro', label: '가쿠로', href: 'https://itjeong-dev.github.io/KakuroHelper/' },
+  { id: 'minesweeper', label: '지뢰찾기', href: 'https://itjeong-dev.github.io/MinesweeperHelper/' },
 ] as const;
 
 type AppId = (typeof APPS)[number]['id'];
@@ -38,6 +39,14 @@ function AppIcon({ id }: { id: AppId }) {
           <path d="M18 18h27v27H18zM45 45h27v27H45z" fill="#1c2233" />
           <path d="M18 18l27 27M45 45l27 27" stroke="#fff" strokeWidth="2" />
           <path d="M45 18v54M18 45h54" stroke="#1c2233" strokeWidth="2" />
+        </>
+      )}
+      {id === 'minesweeper' && (
+        <>
+          <path d="M18 18h18v18H18zM54 54h18v18H54zM36 54h18v18H36zM54 18h18v18H54z" fill="#c9cfdc" />
+          <path d="M45 35v20M35 45h20M38 38l14 14M52 38L38 52" stroke="#1c2233" strokeWidth="2.5" />
+          <circle cx="45" cy="45" r="6.5" fill="#1c2233" />
+          <path d="M36 18v54M54 18v54M18 36h54M18 54h54" stroke="#1c2233" strokeWidth="1.5" />
         </>
       )}
       <rect x="18" y="18" width="54" height="54" fill="none" stroke="#1c2233" strokeWidth="3" />

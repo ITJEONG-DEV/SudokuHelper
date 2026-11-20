@@ -2,7 +2,7 @@
 
 스도쿠 문제를 입력하면 다음 한 단계를 힌트로 알려주는 PWA. 브라우저에서 쓰거나 휴대폰 홈 화면에 앱으로 설치할 수 있고, 설치 후에는 오프라인에서도 동작한다.
 
-**사용하기**: https://itjeong-dev.github.io/SudokuHelper/ · 함께 쓰는 앱: [노노그램 도우미](https://itjeong-dev.github.io/NonogramHelper/) · [가쿠로 도우미](https://itjeong-dev.github.io/KakuroHelper/)
+**사용하기**: https://itjeong-dev.github.io/SudokuHelper/ · 함께 쓰는 앱: [노노그램 도우미](https://itjeong-dev.github.io/NonogramHelper/) · [가쿠로 도우미](https://itjeong-dev.github.io/KakuroHelper/) · [지뢰찾기 도우미](https://itjeong-dev.github.io/MinesweeperHelper/)
 
 ## 기능
 
@@ -63,7 +63,7 @@ main에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 테스트·
 - `src/sudoku/generate.ts`: 랜덤 문제 만들기 (정답 판 생성 → 점대칭으로 지우기 → 힌트 엔진으로 난이도 판정). 화면이 멈추지 않게 `generate.worker.ts`에서 돌린다
 - `src/photo/image.ts`: 판 모서리 찾기, 투영 변환으로 펼치기, 칸별 숫자 모양 자르기
 - `src/photo/recognize.ts`: Tesseract.js로 숫자 읽기
-- `src/components/AppNav.tsx`: 퍼즐 도우미 앱 모음. 제목 줄 버튼으로 여는 시트 (스도쿠·노노그램·가쿠로 도우미에 같은 파일)
-- `src/components/UpdateBanner.tsx`: 새 버전 새로고침 안내 (세 앱에 같은 파일)
-- `src/components/SolvedToast.tsx`: 다 풀었을 때 판 위 안내 (세 앱에 같은 파일)
+- `src/components/AppNav.tsx`: 퍼즐 도우미 앱 모음. 제목 줄 버튼으로 여는 시트 (네 앱에 같은 파일)
+- `src/components/UpdateBanner.tsx`: 새 버전 새로고침 안내 (네 앱에 같은 파일)
+- `src/components/SolvedToast.tsx`: 판 위에 겹치는 안내(다 풀었을 때 등) (네 앱에 같은 파일)
 - `src/App.tsx`, `src/components/`: 화면
