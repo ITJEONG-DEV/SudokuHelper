@@ -673,3 +673,59 @@ a.app-nav-item:hover {
   color: #fff;
   font-weight: 600;
 }
+
+/* ---------- 다 풀었을 때 안내 (판 위에 겹침) ---------- */
+
+.board-wrap {
+  position: relative;
+}
+
+.solved-toast {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  max-width: calc(100% - 24px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 16px;
+  border-radius: 999px;
+  background: var(--success-soft);
+  color: var(--success);
+  border: 1px solid var(--success);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.18);
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  animation: solved-pop 0.2s ease-out;
+}
+
+.solved-toast span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.solved-toast button {
+  flex: none;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 0.95rem;
+}
+
+@keyframes solved-pop {
+  from {
+    transform: translate(-50%, -8px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solved-toast {
+    animation: none;
+  }
+}

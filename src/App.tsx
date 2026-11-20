@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { AppNav } from './components/AppNav';
 import { UpdateBanner } from './components/UpdateBanner';
+import { SolvedToast } from './components/SolvedToast';
 import { Board } from './components/Board';
 import { HintPanel } from './components/HintPanel';
 import { PhotoImport } from './components/PhotoImport';
@@ -375,19 +376,20 @@ export default function App() {
         </div>
       )}
 
-      {solved && <div className="message success">다 풀었어요! 정답이에요.</div>}
-
-      <Board
-        values={game.values}
-        given={game.given}
-        marks={isSetup ? zeros() : game.marks}
-        selected={selected}
-        conflicts={conflicts}
-        flagged={flagged}
-        hint={hint}
-        hintLevel={hintLevel}
-        onSelect={(cell) => dispatch({ type: 'select', cell })}
-      />
+      <div className="board-wrap">
+        <Board
+          values={game.values}
+          given={game.given}
+          marks={isSetup ? zeros() : game.marks}
+          selected={selected}
+          conflicts={conflicts}
+          flagged={flagged}
+          hint={hint}
+          hintLevel={hintLevel}
+          onSelect={(cell) => dispatch({ type: 'select', cell })}
+        />
+        <SolvedToast show={solved} text="다 풀었어요! 정답이에요." />
+      </div>
 
       {hint && (
         <HintPanel
