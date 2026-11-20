@@ -599,40 +599,6 @@ button.link {
   }
 }
 
-/* ---------- 앱 이동 메뉴 ---------- */
-
-.app-nav {
-  /* 페이지 밖 스타일(확장 프로그램 등)이 nav에 z-index를 줘도 사진 시트를 덮지 않게 고정 */
-  position: relative;
-  z-index: 0;
-  display: flex;
-  gap: 4px;
-  background: var(--peer);
-  border-radius: 999px;
-  padding: 3px;
-  align-self: flex-start;
-  font-size: 0.85rem;
-}
-
-.app-nav-item {
-  padding: 5px 14px;
-  border-radius: 999px;
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.app-nav-item.current {
-  background: var(--surface);
-  color: var(--accent);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
-}
-
-a.app-nav-item:hover {
-  color: var(--text);
-}
-
-
 /* ---------- 새 버전 안내 ---------- */
 
 .update-banner {
@@ -729,3 +695,129 @@ a.app-nav-item:hover {
     animation: none;
   }
 }
+
+/* ---------- 앱 모음 ---------- */
+
+.app-header h1 {
+  flex: 1;
+}
+
+.app-header {
+  gap: 8px;
+}
+
+.app-launch {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 10px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.app-launch svg {
+  width: 18px;
+  height: 18px;
+}
+
+.app-launch:hover {
+  color: var(--accent);
+}
+
+.app-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgb(0 0 0 / 0.35);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.app-sheet {
+  width: min(520px, 100%);
+  background: var(--surface);
+  border-radius: 16px 16px 0 0;
+  padding: 14px 16px calc(20px + env(safe-area-inset-bottom));
+  box-shadow: 0 -6px 24px rgb(0 0 0 / 0.2);
+  animation: app-sheet-up 0.18s ease-out;
+}
+
+@keyframes app-sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-sheet {
+    animation: none;
+  }
+}
+
+.app-sheet header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.app-sheet-close {
+  border: 0;
+  background: none;
+  font-size: 1.1rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.app-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 8px;
+}
+
+.app-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+a.app-tile:hover,
+a.app-tile:focus-visible {
+  background: var(--peer);
+}
+
+.app-tile.current {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.app-icon {
+  width: 52px;
+  height: 52px;
+}
+
+.app-here {
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-top: -4px;
+}
+

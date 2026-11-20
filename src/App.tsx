@@ -337,13 +337,13 @@ export default function App() {
 
   return (
     <div className="app">
-      <AppNav current="sudoku" />
       <UpdateBanner />
       <header className="app-header">
         <h1>스도쿠 도우미</h1>
         <span className={`phase-badge ${game.phase}`}>
           {isSetup ? '문제 입력' : game.level ? `푸는 중 · ${levelLabel(game.level)}` : '푸는 중'}
         </span>
+        <AppNav current="sudoku" />
       </header>
 
       {isSetup && (
