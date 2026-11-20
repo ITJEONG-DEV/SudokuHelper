@@ -349,7 +349,7 @@ export default function App() {
       {isSetup && (
         <>
           <p className="lead">
-            문제의 숫자를 넣고 <strong>풀기 시작</strong>을 누르세요. 칸을 고르고 아래 숫자를 누르거나 키보드로 입력해요.
+            문제를 입력하거나, 난이도를 선택해 랜덤 문제를 시작하세요.
           </p>
           <section className="random" aria-label="랜덤 문제">
             <span className="random-title">랜덤 문제</span>
