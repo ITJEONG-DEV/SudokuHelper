@@ -430,6 +430,51 @@ button {
   cursor: default;
 }
 
+.random {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.random-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.random-levels {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+}
+
+.random-levels button {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.random-levels button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.random-desc {
+  width: 100%;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
 .import {
   display: flex;
   flex-direction: column;

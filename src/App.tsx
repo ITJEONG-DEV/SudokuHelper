@@ -8,6 +8,7 @@ import type { ReadResult } from './photo/recognize';
 import { PEERS, bit, computeCandidates, conflictCells, parsePuzzle } from './sudoku/board';
 import { applyHint, findHint, type Hint } from './sudoku/hints';
 import { solve } from './sudoku/solver';
+import { LEVELS, generate, levelLabel, type Generated, type Level } from './sudoku/generate';
 
 type Phase = 'setup' | 'solve';
 
@@ -17,6 +18,8 @@ interface Game {
   given: boolean[];
   marks: number[];
   solution: number[] | null;
+  /** 랜덤 문제의 난이도 */
+  level?: Level;
 }
 
 interface State {
@@ -46,6 +49,7 @@ type Action =
   | { type: 'edit' }
   | { type: 'new' }
   | { type: 'load'; values: number[] }
+  | { type: 'random'; result: Generated }
   | { type: 'autoClean'; on: boolean }
   | { type: 'message'; tone: 'info' | 'error'; text: string }
   | { type: 'dismiss' };
@@ -185,6 +189,13 @@ function reducer(state: State, action: Action): State {
       return { ...commit(state, emptyGame()), selected: 0 };
     case 'load':
       return { ...commit(state, { ...emptyGame(), values: action.values, given: action.values.map((v) => v !== 0) }), selected: 0 };
+    case 'random': {
+      const { puzzle, solution, level, approximate } = action.result;
+      const next: Game = { phase: 'solve', values: puzzle, given: puzzle.map((v) => v !== 0), marks: zeros(), solution, level };
+      const s = { ...commit(state, next), selected: 0 };
+      if (!approximate) return s;
+      return { ...s, message: { tone: 'info', text: `${levelLabel(level)} 난이도 문제를 시간 안에 찾지 못해 가장 가까운 난이도의 문제를 냈어요.` } };
+    }
     case 'autoClean':
       return { ...state, autoClean: action.on };
     case 'message':
@@ -201,7 +212,33 @@ export default function App() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [recognized, setRecognized] = useState<ReadResult | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  const [generating, setGenerating] = useState<Level | null>(null);
+  const worker = useRef<Worker | null>(null);
   const { game, selected, mode, hint, hintLevel, message } = state;
+
+  useEffect(() => () => worker.current?.terminate(), []);
+
+  const startRandom = (level: Level) => {
+    worker.current?.terminate();
+    setGenerating(level);
+    const done = (result: Generated) => {
+      worker.current?.terminate();
+      worker.current = null;
+      setGenerating(null);
+      setRecognized(null);
+      dispatch({ type: 'random', result });
+    };
+    try {
+      const w = new Worker(new URL('./sudoku/generate.worker.ts', import.meta.url), { type: 'module' });
+      worker.current = w;
+      w.onmessage = (e: MessageEvent<Generated>) => done(e.data);
+      w.onerror = () => done(generate(level));
+      w.postMessage({ level });
+    } catch {
+      // 워커를 못 쓰는 환경이면 화면에서 바로 만든다
+      setTimeout(() => done(generate(level)), 0);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -303,13 +340,30 @@ export default function App() {
       <UpdateBanner />
       <header className="app-header">
         <h1>스도쿠 도우미</h1>
-        <span className={`phase-badge ${game.phase}`}>{isSetup ? '문제 입력' : '푸는 중'}</span>
+        <span className={`phase-badge ${game.phase}`}>
+          {isSetup ? '문제 입력' : game.level ? `푸는 중 · ${levelLabel(game.level)}` : '푸는 중'}
+        </span>
       </header>
 
       {isSetup && (
-        <p className="lead">
-          문제의 숫자를 넣고 <strong>풀기 시작</strong>을 누르세요. 칸을 고르고 아래 숫자를 누르거나 키보드로 입력해요.
-        </p>
+        <>
+          <p className="lead">
+            문제의 숫자를 넣고 <strong>풀기 시작</strong>을 누르세요. 칸을 고르고 아래 숫자를 누르거나 키보드로 입력해요.
+          </p>
+          <section className="random" aria-label="랜덤 문제">
+            <span className="random-title">랜덤 문제</span>
+            <div className="random-levels">
+              {LEVELS.map((l) => (
+                <button key={l.id} type="button" onClick={() => startRandom(l.id)} disabled={generating !== null}>
+                  {generating === l.id ? '만드는 중…' : l.label}
+                </button>
+              ))}
+            </div>
+            <span className="random-desc">
+              하: 숨은 싱글·외톨이 후보 · 중: 박스-줄 교차 · 상: 쌍·세 쌍 · 최상: X-윙 이상
+            </span>
+          </section>
+        </>
       )}
 
       {message && (
@@ -431,6 +485,11 @@ export default function App() {
             <button type="button" className="link" onClick={() => dispatch({ type: 'new' })}>
               새 문제
             </button>
+            {game.level && (
+              <button type="button" className="link" onClick={() => startRandom(game.level!)} disabled={generating !== null}>
+                {generating ? '만드는 중…' : `같은 난이도(${levelLabel(game.level)}) 한 문제 더`}
+              </button>
+            )}
           </div>
         </div>
       )}
